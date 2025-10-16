@@ -13,6 +13,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy Laravel files
 COPY . /var/www/html/
 
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
 # Set Apache to use Laravel's public directory
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
