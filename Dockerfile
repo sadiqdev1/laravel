@@ -16,8 +16,10 @@ COPY . /var/www/html/
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html/storage
-RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+# Fix permissions and ownership
+RUN chown -R www-data:www-data /var/www/html/
+RUN chmod -R 775 /var/www/html/storage
+RUN chmod -R 775 /var/www/html/bootstrap/cache
 
-EXPOSE 80
+# Set Apache document root to public
+RUN sed -i 's|/var/www/html|/
