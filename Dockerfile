@@ -22,4 +22,9 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
 # Enable Apache modules
 RUN a2enmod rewrite
 
+# FORCE PHP ERROR DISPLAY
+RUN echo "display_errors = On" >> /usr/local/etc/php/php.ini
+RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/php.ini
+RUN echo "log_errors = On" >> /usr/local/etc/php/php.ini
+
 EXPOSE 80
