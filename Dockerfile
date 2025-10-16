@@ -13,6 +13,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy app files
 COPY . /var/www/html/
 
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
@@ -21,7 +24,7 @@ RUN chown -R www-data:www-data /var/www/html/
 RUN chmod -R 775 /var/www/html/storage
 RUN chmod -R 775 /var/www/html/bootstrap/cache
 
-# Set Apache document root to public (FIXED LINE)
+# Set Apache document root to public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
