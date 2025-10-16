@@ -13,17 +13,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy app files
 COPY . /var/www/html/
 
-# Create production environment
-COPY .env.production .env
-
-# Generate app key
-RUN php artisan key:generate
-
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
-
-# Cache configuration
-RUN php artisan config:cache
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
@@ -35,5 +26,7 @@ RUN chmod -R 775 /var/www/html/bootstrap/cache
 
 # Set Apache document root to public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
+EXPOSE 80RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
