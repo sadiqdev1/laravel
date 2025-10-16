@@ -27,4 +27,10 @@ RUN chmod -R 775 /var/www/html/bootstrap/cache
 # Set Apache document root to public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
+# ENABLE ERROR LOGGING
+RUN echo "display_errors = On" >> /usr/local/etc/php/php.ini
+RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/php.ini
+RUN echo "log_errors = On" >> /usr/local/etc/php/php.ini
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 EXPOSE 80
