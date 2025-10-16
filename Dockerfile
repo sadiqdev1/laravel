@@ -13,13 +13,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy app files
 COPY . /var/www/html/
 
-# Install Composer dependencies
+# Create production environment
+COPY .env.production .env
+
+# Generate app key
+RUN php artisan key:generate
+
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
+
+# Cache configuration
+RUN php artisan config:cache
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Fix permissions and ownership
+# Fix permissions
 RUN chown -R www-data:www-data /var/www/html/
 RUN chmod -R 775 /var/www/html/storage
 RUN chmod -R 775 /var/www/html/bootstrap/cache
