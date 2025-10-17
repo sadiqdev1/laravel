@@ -25,7 +25,7 @@ RUN mkdir -p /var/www/html/database && touch /var/www/html/database/database.sql
 
 # 8️⃣ Install dependencies
 RUN composer install --no-dev --optimize-autoloader
-RUN npm ci && npm run build
+RUN npm install && npm run build
 
 # 9️⃣ Clear caches to avoid config issues
 RUN php artisan config:clear && php artisan cache:clear && php artisan route:clear
